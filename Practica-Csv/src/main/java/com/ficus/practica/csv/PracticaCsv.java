@@ -1,0 +1,72 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ */
+
+package com.ficus.practica.csv;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ *
+ * @author abrah
+ */
+public class PracticaCsv {
+
+    private static final String RUTA = "datos.csv";
+    private static final String SEPARADOR = ",";
+    
+    public static void main(String[] args) {
+        System.out.println("Voy a leer un csv");
+        
+        try{
+            System.out.println(leerTexto());
+        }catch(IOException ex) {
+            System.out.println("Fallo por "+ex.getMessage());
+        }
+    }
+    
+    public static List<String[]> leerFilas() throws IOException{
+        List<String[]> filas = new ArrayList<>();
+        if(!new File(RUTA).exists()) return filas;
+        
+        try(FileReader fr = new FileReader(RUTA, StandardCharsets.UTF_8);
+                BufferedReader br = new BufferedReader(fr)){
+            
+            String linea;
+            boolean primero = true;
+            while ((linea = br.readLine()) != null){
+                if (primero){primero = false; continue;}
+                if (!linea.trim().isEmpty()){
+                    filas.add(linea.split(SEPARADOR));
+                }
+            }
+        }
+        return filas;
+    }
+    
+    public static String leerTexto() throws IOException{
+        if (!new File(RUTA).exists()) return "El archivo de datos2.csv no existe todavia.";
+        
+        StringBuilder sb = new StringBuilder();
+        List<String[]> filas = leerFilas();
+        sb.append("Total de registros: ") .append(filas.size()).append("\n\n");
+        sb.append(String.format("%-15s %-6s %-15s%n", "NOMBRE", "EDAD", "CARRERA"));
+        
+        sb.append("-".repeat(40)).append("\n");
+        
+        for (String[] fila : filas){
+            if (fila.length >= 3){
+                sb.append(String.format("%-15s %-6s %-15s%n",
+                        fila[0].trim(), fila[1].trim(),fila[2].trim()));
+            }
+        }
+        return sb.toString();
+    }
+    
+}
