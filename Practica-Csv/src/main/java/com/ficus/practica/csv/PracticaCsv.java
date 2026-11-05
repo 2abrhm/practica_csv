@@ -13,6 +13,7 @@ import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 /**
  *
@@ -32,9 +33,22 @@ public class PracticaCsv {
         }catch(IOException ex) {
             System.out.println("Fallo por "+ex.getMessage());
         }
+        
+        Scanner sc = new Scanner(System.in);
+           System.out.print("¿Cuantos alumnos deseas registrar?: ");
+             int cantidad = Integer.parseInt(sc.nextLine());
+        
         try{
-            escribir("juan",20, "Quimica");
-            
+          for (int i = 0; i < cantidad; i++) {
+        System.out.println("\n--- Registro " + (i + 1) + " ---");
+        System.out.print("Nombre: ");
+        String nombre = sc.nextLine();
+        System.out.print("Edad: ");
+        int edad = Integer.parseInt(sc.nextLine());
+        System.out.print("Carrera: ");
+        String carrera = sc.nextLine();
+        escribir(nombre, edad, carrera);   
+          }
         }catch(IOException ex){
             System.out.println("Fallo por escritura por" +ex.getMessage());
         }
