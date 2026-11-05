@@ -18,7 +18,7 @@ import java.util.List;
  */
 public class PracticaCsv {
 
-    private static final String RUTA = "datos.csv";
+    private static final String RUTA = "datos2.csv";
     private static final String SEPARADOR = ",";
     
     public static void main(String[] args) {
