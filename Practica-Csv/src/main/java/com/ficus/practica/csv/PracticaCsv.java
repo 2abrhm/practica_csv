@@ -7,7 +7,9 @@ package com.ficus.practica.csv;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +22,7 @@ public class PracticaCsv {
 
     private static final String RUTA = "datos2.csv";
     private static final String SEPARADOR = ",";
+    private static final String CABECERA = "nombre, edad, carrera";
     
     public static void main(String[] args) {
         System.out.println("Voy a leer un csv");
@@ -29,7 +32,30 @@ public class PracticaCsv {
         }catch(IOException ex) {
             System.out.println("Fallo por "+ex.getMessage());
         }
+        try{
+            escribir("juan",20, "Quimica");
+            
+        }catch(IOException ex){
+            System.out.println("Fallo por escritura por" +ex.getMessage());
+        }
+        
     }
+    
+    public static void escribir(String nombre, int edad, String carrera) throws IOException {
+        boolean esNuevo = !new File (RUTA).exists();
+        
+        try (FileWriter fw = new FileWriter(RUTA, StandardCharsets.UTF_8, true);
+             PrintWriter pw = new PrintWriter(fw)) {
+                 
+            if (esNuevo) {
+                pw.println(CABECERA);
+            }
+            
+            pw.println(nombre + SEPARADOR + edad + SEPARADOR + carrera);
+        }
+    }
+   
+    
     
     public static List<String[]> leerFilas() throws IOException{
         List<String[]> filas = new ArrayList<>();
